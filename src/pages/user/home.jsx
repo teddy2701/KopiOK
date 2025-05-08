@@ -1,6 +1,6 @@
 import React, {useState, useMemo} from 'react'
 
-const home = () => {
+const Home = () => {
    // Dummy data
    const username = 'Teddy';
    const historyData = [
@@ -129,4 +129,4 @@ const home = () => {
 )
 }
 
-export default home
+export default Home
