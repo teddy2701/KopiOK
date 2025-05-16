@@ -4,8 +4,8 @@ import './index.css'
 import { BrowserRouter, Routes, Route } from "react-router";
 
 import App from './App.jsx'
-import { Home, Produksi, Registrasi } from './pages/admin/index.js'
-import { Home as UserHome, DropFrom, PickupForm } from './pages/user/index.js'
+import { Home, Produksi, Registrasi, Detail, BahanBaku } from './pages/admin/index.js'
+import { Home as UserHome, DropFrom, PickupForm, Absen } from './pages/user/index.js'
 
 import ClientLayout from './components/ClientLayout.jsx'
 import ClientProvider from "./components/ClientProvider.jsx"
@@ -28,15 +28,17 @@ createRoot(document.getElementById('root')).render(
                 <Route index element={<Home />} />
                 <Route path="pegawai" element={<Registrasi />} />
                 <Route path="produksi" element={<Produksi />} />
+                <Route path="detail/:userId" element={<Detail />} />
+                <Route path="inventory/" element={<BahanBaku />} />
               </Route>
             </Route>
             <Route element={<ProtecteRoute allowedRoles={['user']} />}>
-
               {/* User */}
               <Route path="user">
                 <Route index element={<UserHome />} />
                 <Route path="pengembalian" element={<DropFrom />} />
                 <Route path="pengambilan" element={<PickupForm />} />
+                <Route path="absen" element={<Absen />} />
               </Route>
             </Route>
           </Routes>

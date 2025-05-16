@@ -1,27 +1,28 @@
 import React,  { useState } from 'react'
 import { NavLink } from "react-router";
 import { useAuth } from './AuthContext';
-import { useNavigate  } from 'react-router'
 /**
  * Props:
  * - role: 'admin' | 'user' | undefined
  */
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { role, setRole} = useAuth();
-    let navigate = useNavigate();
     // Define menu items based on role
+    const { user, logout } = useAuth();
+    const role = user?.role; // Ambil role dari user yang sudah login
 
     const menuItems = {
       admin: [
         { label: 'Home', href: '/admin' },
         { label: 'Data Pegawai', href: '/admin/pegawai' },
         { label: 'Produksi', href: '/admin/produksi' },
+        { label: 'Inventory', href: '/admin/inventory' },
       ],
       user: [
         { label: 'Home', href: '/user' },
         { label: 'Ambil Barang', href: '/user/pengambilan' },
         { label: 'Pengembalian Barang', href: '/user/pengembalian' },
+        { label: 'Absen', href: '/user/absen' },
       ],
     
     };
@@ -30,8 +31,7 @@ const Navbar = () => {
     if (!items) return null;
 
     const handleLogout = () => {
-      setRole(null)            // clear role & localStorage
-      navigate('/', { replace: true })
+    logout(); 
     }
 
 

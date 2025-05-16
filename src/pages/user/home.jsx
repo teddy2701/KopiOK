@@ -1,21 +1,36 @@
-import React, {useState, useMemo} from 'react'
+import React, {useState, useMemo, useEffect} from 'react'
+import axios from 'axios';
+import { useAuth } from '../../components/AuthContext';
+import AlertModal from '../../components/AlertModal';
 
 const Home = () => {
-   // Dummy data
-   const username = 'Teddy';
-   const historyData = [
-     { date: '2025-04-01', products: [ { name: 'kopi 1', ambil:20 ,kembali: 10, revenue: 100000 }, { name: 'kopi 2', ambil:20 ,kembali: 5, revenue: 50000 }, { name: 'kopi 3', ambil:20 ,kembali: 8, revenue: 80000 }, ] },
-     { date: '2025-04-02', products: [ { name: 'kopi 1', ambil:20 ,kembali: 12, revenue: 120000 }, { name: 'kopi 2', ambil:20 ,kembali: 7, revenue: 70000 }, { name: 'kopi 3', ambil:20 ,kembali: 4, revenue: 40000 }, ] },
-     { date: '2025-04-03', products: [ { name: 'kopi 1', ambil:20 ,kembali: 9, revenue: 90000 }, { name: 'kopi 2', ambil:20 ,kembali: 6, revenue: 60000 }, { name: 'kopi 3', ambil:20 ,kembali: 11, revenue: 110000 }, ] },
-     { date: '2025-04-04', products: [ { name: 'kopi 1', ambil:20 ,kembali: 9, revenue: 90000 }, { name: 'kopi 2', ambil:20 ,kembali: 6, revenue: 60000 }, { name: 'kopi 3', ambil:20 ,kembali: 11, revenue: 110000 }, ] },
-     { date: '2025-04-05', products: [ { name: 'kopi 1', ambil:20 ,kembali: 9, revenue: 90000 }, { name: 'kopi 2', ambil:20 ,kembali: 6, revenue: 60000 }, { name: 'kopi 3', ambil:20 ,kembali: 11, revenue: 110000 }, ] },
-     { date: '2025-04-06', products: [ { name: 'kopi 1', ambil:20 ,kembali: 9, revenue: 90000 }, { name: 'kopi 2', ambil:20 ,kembali: 6, revenue: 60000 }, { name: 'kopi 3', ambil:20 ,kembali: 11, revenue: 110000 }, ] },
-     { date: '2025-04-07', products: [ { name: 'kopi 1', ambil:20 ,kembali: 9, revenue: 90000 }, { name: 'kopi 2', ambil:20 ,kembali: 6, revenue: 60000 }, { name: 'kopi 3', ambil:20 ,kembali: 11, revenue: 110000 }, ] },
-     { date: '2025-04-08', products: [ { name: 'kopi 1', ambil:20 ,kembali: 9, revenue: 90000 }, { name: 'kopi 2', ambil:20 ,kembali: 6, revenue: 60000 }, { name: 'kopi 3', ambil:20 ,kembali: 11, revenue: 110000 }, ] },
-     { date: '2025-04-09', products: [ { name: 'kopi 1', ambil:20 ,kembali: 9, revenue: 90000 }, { name: 'kopi 2', ambil:20 ,kembali: 6, revenue: 60000 }, { name: 'kopi 3', ambil:20 ,kembali: 11, revenue: 110000 }, ] },
-     { date: '2025-04-10', products: [ { name: 'kopi 1', ambil:20 ,kembali: 9, revenue: 90000 }, { name: 'kopi 2', ambil:20 ,kembali: 6, revenue: 60000 }, { name: 'kopi 3', ambil:20 ,kembali: 11, revenue: 110000 }, ] },
-     { date: '2025-04-11', products: [ { name: 'kopi 1', ambil:20 ,kembali: 9, revenue: 90000 }, { name: 'kopi 2', ambil:20 ,kembali: 6, revenue: 60000 }, { name: 'kopi 3', ambil:20 ,kembali: 11, revenue: 110000 }, ] },
-   ];
+    const {user} = useAuth();
+    const [historyData, setHistoryData] = useState([]);
+     const [alert, setAlert] = useState({
+            show: false,
+            message: '',
+            type: 'info'
+        })
+  
+   useEffect(() => {
+        const fetchHistory = async () => {
+            try {
+                const { data } = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/sale/history/${user.id}`, {
+                    withCredentials: true,
+                });
+                setHistoryData(data);
+                console.log(data)
+            } catch (error) {
+                console.error('Error fetching history data:', error);
+                setAlert({
+                    show: true,
+                    message: error.response?.data?.message || 'Terjadi kesalahan saat mengembalikan produk',
+                    type: 'error'
+                })
+            }
+        };
+        fetchHistory();
+    }, []);
  
    // Filter state: 'all', '7', '30'
    const [period, setPeriod] = useState('all');
@@ -26,9 +41,9 @@ const Home = () => {
      const days = period === '7' ? 7 : 30;
      const cutoff = new Date();
      cutoff.setDate(cutoff.getDate() - days + 1); // include today as day 1
-     console.log(historyData.filter(day => new Date(day.date) >= cutoff))
+    //  console.log("dari filter:",historyData.filter(day => new Date(day.date) >= cutoff))
      return historyData.filter(day => new Date(day.date) >= cutoff);
-   }, [period]);
+   }, [period, historyData]);
  
    // Overall total revenue
    const totalRevenue = filteredData
@@ -40,7 +55,7 @@ const Home = () => {
     <header className="mb-6">
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
             <h1 className="text-2xl md:text-3xl font-bold text-amber-800">
-                Selamat Bekerja, {username}! ☕
+                Selamat Bekerja, {user.nama}! ☕
             </h1>
             
             <div className="flex gap-2">
@@ -125,6 +140,13 @@ const Home = () => {
             </div>
         )}
     </section>
+    {alert.show && (
+                <AlertModal
+                    message={alert.message}
+                    type={alert.type}
+                    onClose={() => setAlert(prev => ({ ...prev, show: false }))}
+                />
+            )}
 </div>
 )
 }

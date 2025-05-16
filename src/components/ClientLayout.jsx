@@ -4,7 +4,9 @@ import { useLocation } from 'react-router';
 
 
 export default function ClientLayout({ children }) {
-    const { role } = useAuth();
+    const { user } = useAuth();
+    const role = user?.role; // Ambil role dari user yang sudah login
+ 
     const { pathname } = useLocation();
     // Tampilkan layout (Navbar + children) hanya jika URL sesuai role
     const showAdmin = role === 'admin' && pathname.startsWith('/admin');

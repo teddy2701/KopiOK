@@ -1,40 +1,34 @@
 import React, {useState} from 'react'
-import { useNavigate } from "react-router";
 import { useAuth } from './components/AuthContext';
+import axios from 'axios';
 
 function App() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  let navigate = useNavigate();
-  const { setRole } = useAuth();
+
+  const { login  } = useAuth();
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    const data = {username:'teddy', role: 'admin'} // dummy data
-    navigate("/admin", { replace: true });
-    setRole(data.role);
-  }
-
-  const handleMaster = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    const data = {username:'teddy', role: 'admin'} // dummy data
-    navigate("/admin", { replace: true });
-    setRole(data.role);
-  }
-
-  const handleUser = (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    const data = {username:'teddy', role: 'user'} // dummy data
-    navigate("/user", { replace: true });
-    setRole(data.role);
+    try{
+        const response = await axios.post(import.meta.env.VITE_BACKEND_LINK + '/auth/login', {username, password}, {withCredentials: true});
+        // Akses data langsung dari response.data
+        const { accessToken, ...userData } = response.data;
+        login(accessToken, userData);
+    }catch(err){
+        if (!err.response?.data) {
+            console.log(err);
+            setError("Terjadi Kesalahan Pada Server");
+        }else{
+            setError(err.response.data.message);
+        }
+    }
+    setLoading(false);
+  
   }
 
   return (
@@ -80,25 +74,8 @@ function App() {
                 {loading ? 'Memproses...' : 'Masuk'}
             </button>
 
-            <p className="text-amber-600 mt-2 text-center">Tombol dibawah ini hanya untuk demo</p>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-                <button 
-                    onClick={handleMaster} 
-                    className="w-full py-2 border-2 border-amber-500 text-amber-600 font-medium rounded-lg hover:bg-amber-100 transition-colors"
-                >
-                    Akses Master
-                </button>
-                <button 
-                    onClick={handleUser} 
-                    className="w-full py-2 border-2 border-amber-500 text-amber-600 font-medium rounded-lg hover:bg-amber-100 transition-colors"
-                >
-                    Akses User
-                </button>
-            </div>
-
             {error && (
-                <div className="mt-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
+                <div className="text-center mt-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
                     {error}
                 </div>
             )}
