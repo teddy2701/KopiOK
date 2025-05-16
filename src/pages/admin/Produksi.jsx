@@ -34,7 +34,7 @@ const Produksi = () => {
 
     async function fetchProductions() {
         try {
-            const { data } = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/produksi/getData`,{withCredentials: true})
+            const { data } = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/produksi/getData`,{})
             setProductions(data);
         } catch (err) {
             console.error(err);

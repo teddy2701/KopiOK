@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
     try {
       const response = await axios.get(
         import.meta.env.VITE_BACKEND_LINK + '/auth/me', 
-        { withCredentials: true }
+        {  }
       );
       
       if (!response.data?.accessToken) throw new Error('Token refresh failed');
