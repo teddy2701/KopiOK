@@ -14,7 +14,7 @@ const Detail = () => {
       try {
         setLoading(true)
 
-        const response = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/user/getUser/${userId}`,{withCredentials: true})
+        const response = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/user/getUser/${userId}`,{})
         setUser(response.data)
         console.log(response.data)
       } catch (err) {

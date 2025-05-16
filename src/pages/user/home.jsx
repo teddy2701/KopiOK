@@ -16,7 +16,7 @@ const Home = () => {
         const fetchHistory = async () => {
             try {
                 const { data } = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/sale/history/${user.id}`, {
-                    withCredentials: true,
+                    
                 });
                 setHistoryData(data);
                 console.log(data)

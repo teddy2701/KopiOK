@@ -16,7 +16,7 @@ const PickupForm = () => {
 
     const fectchProducts = async () => {
         try {
-            const { data } = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/produksi/produk/tersedia`, { withCredentials: true });
+            const { data } = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/produksi/produk/tersedia`, {  });
             setProducts(data);
             const init = {};
             data.forEach(p => { init[p._id] = 0; });

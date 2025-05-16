@@ -9,7 +9,7 @@ const Absen = () => {
 
     const updateStatus = async () => {
         try {
-            const res = await axios.post(import.meta.env.VITE_BACKEND_LINK + '/absen/status',{id: user.id}, { withCredentials: true });
+            const res = await axios.post(import.meta.env.VITE_BACKEND_LINK + '/absen/status',{id: user.id}, {  });
             setStatus(res.data);
            
         } catch (e) {
@@ -24,7 +24,7 @@ const Absen = () => {
     const attend = async (type) => {
         try {
           const endpoint = type == 'IN' ? '/absen/masuk' : '/absen/pulang';
-          const res = await axios.post(import.meta.env.VITE_BACKEND_LINK + endpoint, {id: user.id}, {withCredentials:true}, );
+          const res = await axios.post(import.meta.env.VITE_BACKEND_LINK + endpoint, {id: user.id}, {}, );
           setMessage(res.data.message);
 
          updateStatus();

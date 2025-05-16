@@ -8,7 +8,7 @@ const home = () => {
   useEffect(()=>{
     const fetchUserData = async () => {
       try {
-        const { data } = await axios.get(import.meta.env.VITE_BACKEND_LINK + '/sale/history/', { withCredentials: true });
+        const { data } = await axios.get(import.meta.env.VITE_BACKEND_LINK + '/sale/history/', {  });
         setUserData(data);
       } catch (error) {
         console.error('Error fetching user data:', error);

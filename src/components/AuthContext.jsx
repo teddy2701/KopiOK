@@ -71,7 +71,7 @@ export function AuthProvider({ children }) {
       await axios.post(
         import.meta.env.VITE_BACKEND_LINK + '/auth/logout', 
         {}, 
-        { withCredentials: true }
+        {  }
       );
     } catch (error) {
       console.error("Logout error:", error);

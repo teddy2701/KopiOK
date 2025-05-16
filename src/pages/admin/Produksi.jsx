@@ -25,7 +25,7 @@ const Produksi = () => {
     
     async function fetchProducts() {
         try {
-            const { data } = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/produksi/produk`,{withCredentials: true});
+            const { data } = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/produksi/produk`,{});
             setProducts(data);
         } catch (err) {
             console.error(err);

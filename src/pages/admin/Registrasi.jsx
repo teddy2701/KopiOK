@@ -42,7 +42,7 @@ const Registrasi = () => {
 
     const dataUser = async () => {
         try {
-          const response = await axios.get(import.meta.env.VITE_BACKEND_LINK + '/user/getUser', {withCredentials: true})
+          const response = await axios.get(import.meta.env.VITE_BACKEND_LINK + '/user/getUser', {})
           setEmployees(response.data)
         } catch (error) {
           console.log(error)
@@ -100,7 +100,7 @@ const Registrasi = () => {
 
           try{
 
-           await axios.post(import.meta.env.VITE_BACKEND_LINK + '/user/createUser', payload, {whithCredentials: true})
+           await axios.post(import.meta.env.VITE_BACKEND_LINK + '/user/createUser', payload, {})
   
           setAlert({
             show: true,

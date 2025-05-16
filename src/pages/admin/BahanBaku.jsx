@@ -12,7 +12,7 @@ const BahanBaku = () => {
 
     async function fetchMaterials() {
         try {
-            const res = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/produksi/`, { withCredentials: true });
+            const res = await axios.get(import.meta.env.VITE_BACKEND_LINK + `/produksi/`, {  });
             setMaterials(res.data);
         } catch (err) {
             console.error(err);
@@ -34,13 +34,13 @@ const BahanBaku = () => {
                 await axios.put(
                     import.meta.env.VITE_BACKEND_LINK + `/produksi/${editingId}/tambahStock`,
                     { additionalStock: form.stock, price: form.price, note: form.note },
-                    { withCredentials: true }
+                    {  }
                 );
             } else {
                 await axios.post(
                     import.meta.env.VITE_BACKEND_LINK + '/produksi/buat',
                     form,
-                    { withCredentials: true }
+                    {  }
                 );
             }
 
