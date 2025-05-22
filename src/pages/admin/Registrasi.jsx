@@ -11,6 +11,7 @@ const Registrasi = () => {
         noTelp: '',
         fotoWajah: null,
         fotoKTP: null,
+        role: '',
       })
       const [alert, setAlert] = useState({
         show: false,
@@ -97,9 +98,10 @@ const Registrasi = () => {
           payload.append('noTelp', form.noTelp)
           payload.append('fotoWajah', form.fotoWajah)
           payload.append('fotoKTP', form.fotoKTP)
+          payload.append('role', form.role)
 
           try{
-
+            console.log(payload)
            await axios.post(import.meta.env.VITE_BACKEND_LINK + '/user/createUser', payload, {})
   
           setAlert({
@@ -195,6 +197,7 @@ const Registrasi = () => {
               >
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
+                <option value="produksi">Produksi</option>
               </select>
               {errors.role && (
                 <p className="text-red-500 text-sm mt-1">{errors.role}</p>

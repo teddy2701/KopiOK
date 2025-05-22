@@ -1,29 +1,16 @@
 // src/ProtectedRoute.jsx
 import React, {useState, useEffect} from 'react'
-import { Navigate, Outlet, useLocation } from 'react-router'
+import { Navigate, Outlet, useLocation, useNavigate } from 'react-router'
 import { useAuth } from './AuthContext'
 
 
 const ProtecteRoute = ({ allowedRoles }) => {
-  const { user, checkAuth  } = useAuth()
+  const { user  } = useAuth()
   const location = useLocation()
-  const [isChecking, setIsChecking] = useState(true)
-
-  useEffect(() => {
-    const verifyAuth = async () => {
-      const isAuthenticated = await checkAuth()
-      setIsChecking(false)
-      
-      if (!isAuthenticated) {
-        // Trigger logout jika diperlukan
-      }
-    }
-    
-    verifyAuth()
-  }, [checkAuth])
 
   // 1) Belum login
   if (!user) {
+    
     return (
       <Navigate
         to="/"

@@ -11,27 +11,33 @@ const Navbar = () => {
     const { user, logout } = useAuth();
     const role = user?.role; // Ambil role dari user yang sudah login
 
+
     const menuItems = {
       admin: [
         { label: 'Home', href: '/admin' },
         { label: 'Data Pegawai', href: '/admin/pegawai' },
-        { label: 'Produksi', href: '/admin/produksi' },
-        { label: 'Inventory', href: '/admin/inventory' },
+       
       ],
       user: [
         { label: 'Home', href: '/user' },
+        { label: 'Absen', href: '/user/absen' },
+        { label: 'Pengecekan', href: '/user/pengecekan' },
+        { label: 'Riwayat', href: '/user/riwayat' },
         { label: 'Ambil Barang', href: '/user/pengambilan' },
         { label: 'Pengembalian Barang', href: '/user/pengembalian' },
-        { label: 'Absen', href: '/user/absen' },
+      ],
+      produksi: [
+        { label: 'Home', href: '/produksi' },
+        { label: 'Inventory', href: '/produksi/inventory' },
       ],
     
     };
-
     const items = menuItems[role];
     if (!items) return null;
 
     const handleLogout = () => {
     logout(); 
+
     }
 
 

@@ -15,9 +15,10 @@ function App() {
     setLoading(true);
     setError('');
     try{
-        const response = await axios.post(import.meta.env.VITE_BACKEND_LINK + '/auth/login', {username, password}, {});
+        const response = await axios.post(import.meta.env.VITE_BACKEND_LINK + '/auth/login', {username, password}, {withCredentials: true});
         // Akses data langsung dari response.data
         const { accessToken, ...userData } = response.data;
+      
         login(accessToken, userData);
     }catch(err){
         if (!err.response?.data) {

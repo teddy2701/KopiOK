@@ -11,7 +11,8 @@ export default function ClientLayout({ children }) {
     // Tampilkan layout (Navbar + children) hanya jika URL sesuai role
     const showAdmin = role === 'admin' && pathname.startsWith('/admin');
     const showUser = role === 'user' && pathname.startsWith('/user');
-    if (showAdmin || showUser) {
+    const showProduksi = role === 'produksi' && pathname.startsWith('/produksi');
+    if (showAdmin || showUser || showProduksi) {
       return <Layout role={role}>{children}</Layout>;
     }
   
